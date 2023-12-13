@@ -8,7 +8,7 @@
       </template>
     </header>
 
-    <n-card flex-1 rounded-10>
+    <n-card flex-1 flex-row rounded-10>
       <slot />
     </n-card>
   </AppPage>

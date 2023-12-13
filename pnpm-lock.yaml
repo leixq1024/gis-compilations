@@ -26,6 +26,9 @@ dependencies:
   echarts:
     specifier: ^5.4.3
     version: 5.4.3
+  highlight.js:
+    specifier: ^11.9.0
+    version: 11.9.0
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -41,6 +44,9 @@ dependencies:
   vite:
     specifier: ^4.4.11
     version: 4.4.11(@types/node@20.5.1)(sass@1.69.0)
+  vite-plugin-vue-preview:
+    specifier: ^1.3.0
+    version: 1.3.0(@vitejs/plugin-vue@4.4.0)(vite@4.4.11)(vue@3.3.4)
   vue:
     specifier: 3.3.4
     version: 3.3.4
@@ -1967,7 +1973,6 @@ packages:
     dependencies:
       vite: 4.4.11(@types/node@20.5.1)(sass@1.69.0)
       vue: 3.3.4
-    dev: true
 
   /@vue/babel-helper-vue-transform-on@1.1.5:
     resolution: {integrity: sha512-SgUymFpMoAyWeYWLAY+MkCK3QEROsiUnfaw5zxOVD/M64KQs8D/4oK6Q5omVA2hnvEOE0SCkH2TZxs/jnnUj7w==}
@@ -4322,10 +4327,9 @@ packages:
     hasBin: true
     dev: true
 
-  /highlight.js@11.8.0:
-    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
+  /highlight.js@11.9.0:
+    resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
-    dev: true
 
   /homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
@@ -5317,7 +5321,7 @@ packages:
       date-fns: 2.30.0
       date-fns-tz: 2.0.0(date-fns@2.30.0)
       evtd: 0.2.4
-      highlight.js: 11.8.0
+      highlight.js: 11.9.0
       lodash: 4.17.21
       lodash-es: 4.17.21
       seemly: 0.3.6
@@ -7198,6 +7202,18 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vite-plugin-vue-preview@1.3.0(@vitejs/plugin-vue@4.4.0)(vite@4.4.11)(vue@3.3.4):
+    resolution: {integrity: sha512-wFaTi+I9KegdTx7GA0rKFwKlk4w64DVPo6UGjzQxUztGYgue3smtPd9FYO84qRK80WIFRzjQSBi1nGP3ANgabg==}
+    peerDependencies:
+      '@vitejs/plugin-vue': ^4.0.0
+      vite: ^4.1.2
+      vue: ^3.2.47
+    dependencies:
+      '@vitejs/plugin-vue': 4.4.0(vite@4.4.11)(vue@3.3.4)
+      vite: 4.4.11(@types/node@20.5.1)(sass@1.69.0)
+      vue: 3.3.4
+    dev: false
 
   /vite@4.4.11(@types/node@20.5.1)(sass@1.69.0):
     resolution: {integrity: sha512-ksNZJlkcU9b0lBwAGZGGaZHCMqHsc8OpgtoYhsQ4/I2v5cnpmmmqe5pM4nv/4Hn6G/2GhTdj0DhZh2e+Er1q5A==}
