@@ -3,7 +3,6 @@ import { defineConfig, loadEnv } from 'vite'
 import { convertEnv, getSrcPath, getRootPath } from './build/utils'
 import { createVitePlugins } from './build/plugin'
 import { OUTPUT_DIR, PROXY_CONFIG } from './build/constant'
-
 export default defineConfig(({ command, mode }) => {
   const srcPath = getSrcPath()
   const rootPath = getRootPath()
@@ -21,7 +20,7 @@ export default defineConfig(({ command, mode }) => {
         '@': srcPath,
       },
     },
-    plugins: createVitePlugins(viteEnv, isBuild),
+    plugins: [createVitePlugins(viteEnv, isBuild)],
     server: {
       host: '0.0.0.0',
       port: VITE_PORT,
