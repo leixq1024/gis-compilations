@@ -1,5 +1,6 @@
 <template>
   <n-config-provider
+    :hljs="hljs"
     wh-full
     :locale="zhCN"
     :date-locale="dateZhCN"
@@ -16,9 +17,10 @@ import { useCssVar } from '@vueuse/core'
 import { kebabCase } from 'lodash-es'
 import { naiveThemeOverrides } from '~/settings'
 import { useAppStore } from '@/store'
-
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+hljs.registerLanguage('javascript', javascript)
 const appStore = useAppStore()
-
 function setupCssVar() {
   const common = naiveThemeOverrides.common
   for (const key in common) {
