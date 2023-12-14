@@ -33,12 +33,12 @@ export default {
           },
         },
         {
-          name: 'a-1-2',
-          path: 'a-1-2',
-          component: () => import('../multi-menu/a-1/a-1-2/index.vue'),
+          name: 'cesiumAddLayers',
+          path: 'cesiumAddLayers',
+          component: () => import('./cesium/cesium-add-layers.vue'),
           meta: {
-            title: 'a-1-2',
-            icon: 'ic:baseline-menu',
+            title: '添加图层',
+            icon: 'material-symbols:auto-awesome-outline-rounded',
             role: ['admin'],
             requireAuth: true,
           },

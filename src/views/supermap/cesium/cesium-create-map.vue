@@ -1,3 +1,4 @@
+<!-- cesium=>创建场景 -->
 <template>
   <CommonPage>
     <div class="map-container" relative h-full>
@@ -11,11 +12,11 @@
         pr-12
       >
         <n-button type="primary" dashed @click="initMap">创建三维场景</n-button>
-        <n-button type="primary" dashed @click="handleChange3DMode">3D模式</n-button>
-        <n-button type="primary" dashed @click="handleChange25DModel">2.5D模式</n-button>
-        <n-button type="primary" dashed @click="handleChangeMorphingMode">变形模式</n-button>
-        <n-button type="primary" dashed @click="handleChange2DModel">2D模式</n-button>
         <n-button type="primary" dashed @click="handleDestroyObject">销毁场景</n-button>
+        <n-button type="primary" dashed @click="handleChange2DModel">2D模式</n-button>
+        <n-button type="primary" dashed @click="handleChange25DModel">2.5D模式</n-button>
+        <n-button type="primary" dashed @click="handleChange3DMode">3D模式</n-button>
+        <n-button type="error" dashed @click="handleChangeMorphingMode">变形模式</n-button>
       </div>
       <div border="1px solid #efeff5" relative>
         <div id="cesiumMap" :key="mapKey" absolute bottom-12px left-12px right-12px top-12px></div>
@@ -64,7 +65,8 @@ const handleDestroyObject = () => {
 const cesiumMap = ref(null)
 const mapKey = ref(0)
 // 创建三维模型
-const initMap = () => {
+const initMap = async () => {
+  if (cesiumMap.value) await handleDestroyObject()
   cesiumMap.value = new Cesium.Viewer('cesiumMap')
 }
 // 2.D模式
@@ -77,7 +79,7 @@ const handleChange2DModel = () => {
 }
 // 变形模式(变形功能疑似有问题)
 const handleChangeMorphingMode = () => {
-  cesiumMap.value.scene.mode = 0
+  // cesiumMap.value.scene.mode = 0
 }
 // 3D模式
 const handleChange3DMode = () => {
