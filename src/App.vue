@@ -1,11 +1,9 @@
+<script setup>
+import Home from './pages/index.vue'
+</script>
+
 <template>
-  <AppProvider>
-    <router-view v-slot="{ Component }">
-      <component :is="Component" />
-    </router-view>
-  </AppProvider>
+    <Home />
 </template>
 
-<script setup>
-import AppProvider from '@/components/common/AppProvider.vue'
-</script>
+<style scoped></style>
