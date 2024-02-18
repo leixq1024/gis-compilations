@@ -27,7 +27,7 @@
     background-image: url("../Images/Navigation/tilt.png");
     visibility: hidden;
 }
-.cesium-viewer-navigationContainer {
+.cesium-map-navigationContainer {
     display: block;
     position: absolute;
     top: 0;
@@ -39,10 +39,10 @@
     height: 300px;
     width: 128px;
 }
-.cesium-viewer-navigationContainer:hover .sm-compass-tilt{
+.cesium-map-navigationContainer:hover .sm-compass-tilt{
     visibility: visible;
 }
-.cesium-viewer-navigationContainer:active .sm-compass-tilt{
+.cesium-map-navigationContainer:active .sm-compass-tilt{
     visibility: visible;
 }
 
@@ -59,11 +59,11 @@
     visibility: hidden;
 }
 
-.cesium-viewer-navigationContainer:hover .sm-compass-tiltbar{
+.cesium-map-navigationContainer:hover .sm-compass-tiltbar{
     visibility: visible;
 }
 
-.cesium-viewer-navigationContainer:active .sm-compass-tiltbar{
+.cesium-map-navigationContainer:active .sm-compass-tiltbar{
     visibility: visible;
 }
 
@@ -76,11 +76,11 @@
     visibility: hidden;
 }
 
-.cesium-viewer-navigationContainer:hover .sm-compass-arrows{
+.cesium-map-navigationContainer:hover .sm-compass-arrows{
     visibility: visible;
 }
 
-.cesium-viewer-navigationContainer:active .sm-compass-arrows{
+.cesium-map-navigationContainer:active .sm-compass-arrows{
     visibility: visible;
 }
 
@@ -94,11 +94,11 @@
     visibility: hidden;
 }
 
-.cesium-viewer-navigationContainer:hover .arrows_e_active{
+.cesium-map-navigationContainer:hover .arrows_e_active{
     visibility: visible;
 }
 
-.cesium-viewer-navigationContainer:active .arrows_e_active{
+.cesium-map-navigationContainer:active .arrows_e_active{
     visibility: visible;
 }
 
@@ -121,11 +121,11 @@
     background-image: url("../Images/Navigation/arrows_n_active.png");
 }
 
-.cesium-viewer-navigationContainer:hover .arrows_n_active{
+.cesium-map-navigationContainer:hover .arrows_n_active{
     visibility: visible;
 }
 
-.cesium-viewer-navigationContainer:active .arrows_n_active{
+.cesium-map-navigationContainer:active .arrows_n_active{
     visibility: visible;
 }
 
@@ -143,11 +143,11 @@
     background-image: url("../Images/Navigation/arrows_s_active.png");
 }
 
-.cesium-viewer-navigationContainer:hover .arrows_s_active{
+.cesium-map-navigationContainer:hover .arrows_s_active{
     visibility: visible;
 }
 
-.cesium-viewer-navigationContainer:active .arrows_s_active{
+.cesium-map-navigationContainer:active .arrows_s_active{
     visibility: visible;
 }
 
@@ -165,11 +165,11 @@
     background-image: url("../Images/Navigation/arrows_w_active.png");
 }
 
-.cesium-viewer-navigationContainer:hover .arrows_w_active{
+.cesium-map-navigationContainer:hover .arrows_w_active{
     visibility: visible;
 }
 
-.cesium-viewer-navigationContainer:active .arrows_w_active{
+.cesium-map-navigationContainer:active .arrows_w_active{
     visibility: visible;
 }
 
@@ -183,10 +183,10 @@
     visibility: hidden;
 }
 
-.cesium-viewer-navigationContainer:hover .sm-zoom{
+.cesium-map-navigationContainer:hover .sm-zoom{
     visibility: visible;
 }
-.cesium-viewer-navigationContainer:active .sm-zoom{
+.cesium-map-navigationContainer:active .sm-zoom{
     visibility: visible;
 }
 

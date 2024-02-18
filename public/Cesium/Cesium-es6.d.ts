@@ -1,7 +1,7 @@
 
-export namespace Viewer {
+export namespace map {
   /**
-   * Initialization options for the Viewer constructor
+   * Initialization options for the map constructor
    * @property [animation = true] - If set to false, the Animation widget will not be created.
    * @property [baseLayerPicker = true] - If set to false, the BaseLayerPicker widget will not be created.
    * @property [fullscreenButton = true] - If set to false, the FullscreenButton widget will not be created.
@@ -15,7 +15,7 @@ export namespace Viewer {
    * @property [navigationHelpButton = true] - If set to false, the navigation help button will not be created.
    * @property [navigationInstructionsInitiallyVisible = true] - True if the navigation instructions should initially be visible, or false if the should not be shown until the user explicitly clicks the button.
    * @property [scene3DOnly = false] - When <code>true</code>, each geometry instance will only be rendered in 3D to save GPU memory.
-   * @property [shouldAnimate = false] - <code>true</code> if the clock should attempt to advance simulation time by default, <code>false</code> otherwise.  This option takes precedence over setting {@link Viewer#clockViewModel}.
+   * @property [shouldAnimate = false] - <code>true</code> if the clock should attempt to advance simulation time by default, <code>false</code> otherwise.  This option takes precedence over setting {@link map#clockViewModel}.
    * @property [clockViewModel = new ClockViewModel(clock)] - The clock view model to use to control current time.
    * @property [selectedImageryProviderViewModel] - The view model for the current base imagery layer, if not supplied the first available base layer is used.  This value is only valid if `baseLayerPicker` is set to true.
    * @property [imageryProviderViewModels = createDefaultImageryProviderViewModels()] - The array of ProviderViewModels to be selectable from the BaseLayerPicker.  This value is only valid if `baseLayerPicker` is set to true.
@@ -39,7 +39,7 @@ export namespace Viewer {
    * @property [creditContainer] - The DOM element or ID that will contain the {@link CreditDisplay}.  If not specified, the credits are added to the bottom of the widget itself.
    * @property [creditViewport] - The DOM element or ID that will contain the credit pop up created by the {@link CreditDisplay}.  If not specified, it will appear over the widget itself.
    * @property [dataSources = new DataSourceCollection()] - The collection of data sources visualized by the widget.  If this parameter is provided,
-   *                               the instance is assumed to be owned by the caller and will not be destroyed when the viewer is destroyed.
+   *                               the instance is assumed to be owned by the caller and will not be destroyed when the map is destroyed.
    * @property [shadows = false] - Determines if shadows are cast by light sources.
    * @property [terrainShadows = ShadowMode.RECEIVE_ONLY] - Determines if the terrain casts or receives shadows from light sources.
    * @property [mapMode2D = MapMode2D.INFINITE_SCROLL] - Determines if the 2D map is rotatable or can be scrolled infinitely in the horizontal direction.
@@ -97,11 +97,11 @@ export namespace Viewer {
     msaaSamples?: number;
   };
   /**
-   * A function that augments a Viewer instance with additional functionality.
-   * @param viewer - The viewer instance.
+   * A function that augments a map instance with additional functionality.
+   * @param map - The map instance.
    * @param options - Options object to be passed to the mixin function.
    */
-  type ViewerMixin = (viewer: Viewer, options: any) => void;
+  type mapMixin = (map: map, options: any) => void;
 }
 
 /**
@@ -109,7 +109,7 @@ export namespace Viewer {
 * 小部件总是可以通过使用mixin进行扩展，mixin为各种应用程序添加了有用的功能.
 * @example
 * //使用几个自定义选项和mixins初始化查看器小部件.
-* const viewer = new Cesium.Viewer('CesiumContainer', {
+* const map = new Cesium.map('CesiumContainer', {
 *     sceneMode : Cesium.SceneMode.COLUMBUS_VIEW,
 *     terrainProvider : Cesium.createWorldTerrain(),
 *     baseLayerPicker : false,
@@ -130,8 +130,8 @@ export namespace Viewer {
 * @param container - 包含Widget的DOM元素或ID
 * @param [options] - 对象描述初始化选项
 */
-export class Viewer {
-  constructor(container: Element | string, options?: Viewer.ConstructorOptions);
+export class map {
+  constructor(container: Element | string, options?: map.ConstructorOptions);
   /**
    * Gets the parent container.
    */
@@ -199,7 +199,7 @@ export class Viewer {
   readonly dataSourceDisplay: DataSourceDisplay;
   /**
    * Gets the collection of entities not tied to a particular data source.
-   * This is a shortcut to [dataSourceDisplay.defaultDataSource.entities]{@link Viewer#dataSourceDisplay}.
+   * This is a shortcut to [dataSourceDisplay.defaultDataSource.entities]{@link map#dataSourceDisplay}.
    */
   readonly entities: EntityCollection;
   /**
@@ -287,7 +287,7 @@ export class Viewer {
    * If true, the browser's device pixel ratio is ignored and 1.0 is used instead,
    * effectively rendering based on CSS pixels instead of device pixels. This can improve
    * performance on less powerful devices that have high pixel density. When false, rendering
-   * will be in device pixels. {@link Viewer#resolutionScale} will still take effect whether
+   * will be in device pixels. {@link map#resolutionScale} will still take effect whether
    * this flag is true or false.
    */
   useBrowserRecommendedResolution: boolean;
@@ -319,17 +319,17 @@ export class Viewer {
    */
   readonly trackedEntityChanged: Event;
   /**
-   * Gets or sets the data source to track with the viewer's clock.
+   * Gets or sets the data source to track with the map's clock.
    */
   clockTrackedDataSource: DataSource;
   /**
-   * Extends the base viewer functionality with the provided mixin.
+   * Extends the base map functionality with the provided mixin.
    * A mixin may add additional properties, functions, or other behavior
-   * to the provided viewer instance.
-   * @param mixin - The Viewer mixin to add to this instance.
+   * to the provided map instance.
+   * @param mixin - The map mixin to add to this instance.
    * @param [options] - The options object to be passed to the mixin function.
    */
-  extend(mixin: Viewer.ViewerMixin, options?: any): void;
+  extend(mixin: map.mapMixin, options?: any): void;
   /**
    * Resizes the widget to match the container size.
    * This function is called automatically as needed unless
@@ -666,7 +666,7 @@ type Scene = {
    * 根据url路径添加场数据图层
    * @param url 场数据的url路径
    * @example 
-   * var promise =  viewer.scene.addFieldLayer("../data.nc");
+   * var promise =  map.scene.addFieldLayer("../data.nc");
        Cesium.when(promise,function(fieldLayer){
        fieldLayer.particleVelocityFieldEffect.velocityScale = 100.0;
        fieldLayer.particleVelocityFieldEffect.particleSize = 2;
@@ -751,7 +751,7 @@ type Scene = {
    * @param options.maximumTerrainLevel  允许加载MVT图层的最大地形层号（如果未定义则所有层都加载）
    * @param options.minimumTerrainLevel 允许加载MVT图层的最小地形层号（如果未定义则所有层都加载）
    * @param options.simplifyTolerance 进行几何简化的坐标容限，单位为切片坐标系，值域为0-4096。值越大简化得越厉害，默认是0，不简化
-   * @param options.viewer 设置将要添加到的地球
+   * @param options.map 设置将要添加到的地球
    * @example 
    * var layer = scene.addVectorTilesLayer({
    * url:"http://localhost:8090/iserver/services/map-mvt-test/....../maps/test"//地图服务
@@ -772,7 +772,7 @@ type Scene = {
     maximumTerrainLevel: number,
     minimumTerrainLevel: number,
     simplifyTolerance: number,
-    viewer: Object
+    map: Object
   }): void
 
   /**
@@ -794,7 +794,7 @@ type Scene = {
    * @param options.swipeRegion 设置卷帘区域
    * @param options.billboardMode 设置文字标签样式
    * @param options.labelDepthTestEnabled 用于控制MVT文字/图标是否做深度检测。默认为true,开启深度检测，反之则关闭深度检测
-   * @param options.viewer 设置将要添加到的地球
+   * @param options.map 设置将要添加到的地球
    */
   addVectorTilesMap(options: {
     url: string,
@@ -816,7 +816,7 @@ type Scene = {
     swipeRegion: object,
     billboardMode: 	BillboardMode,
     labelDepthTestEnabled: boolean,
-    viewer: object
+    map: object
   }): void
 
   /**
@@ -2281,7 +2281,7 @@ export class CatmullRomSpline {
  * A {@link TerrainProvider} 以supermap地形格式访问地形数据.
  * @example
  * // 创建带有法线的 Arctic DEM terrain.
- * const viewer = new SuperMap.Viewer('CesiumContainer', {
+ * const map = new SuperMap.map('CesiumContainer', {
  *     terrainProvider : new SuperMap.SuperMapTerrainProvider({
  *         url : SuperMap.IonResource.fromAssetId(3956),
  *         requestVertexNormals : true
@@ -10479,7 +10479,7 @@ export class NearFarScalar {
 * const occluderBoundingSphere = new SuperMap.BoundingSphere(new SuperMap.Cartesian3(0, 0, -1), 1);
 * const occluder = new SuperMap.Occluder(occluderBoundingSphere, cameraPosition);
 * @param occluderBoundingSphere - The bounding sphere surrounding the occluder.
-* @param cameraPosition - The coordinate of the viewer/camera.
+* @param cameraPosition - The coordinate of the map/camera.
 */
 export class Occluder {
   constructor(occluderBoundingSphere: BoundingSphere, cameraPosition: Cartesian3);
@@ -10498,7 +10498,7 @@ export class Occluder {
   /**
    * Creates an occluder from a bounding sphere and the camera position.
    * @param occluderBoundingSphere - The bounding sphere surrounding the occluder.
-   * @param cameraPosition - The coordinate of the viewer/camera.
+   * @param cameraPosition - The coordinate of the map/camera.
    * @param [result] - The object onto which to store the result.
    * @returns The occluder derived from an object's position and radius, as well as the camera position.
    */
@@ -10577,8 +10577,8 @@ export class Occluder {
 /**
 * Provides geocoding via a {@link https://opencagedata.com/|OpenCage} server.
 * @example
-* // Configure a Viewer to use the OpenCage Geocoder
-* const viewer = new SuperMap.Viewer('CesiumContainer', {
+* // Configure a map to use the OpenCage Geocoder
+* const map = new SuperMap.map('CesiumContainer', {
 *   geocoder: new SuperMap.OpenCageGeocoderService('https://api.opencagedata.com/geocode/v1/', '<API key>')
 * });
 * @param url - The endpoint to the OpenCage server.
@@ -11113,8 +11113,8 @@ export namespace PackableForInterpolation {
 /**
 * Provides geocoding via a {@link https://pelias.io/|Pelias} server.
 * @example
-* // Configure a Viewer to use the Pelias server hosted by https://geocode.earth/
-* const viewer = new SuperMap.Viewer('CesiumContainer', {
+* // Configure a map to use the Pelias server hosted by https://geocode.earth/
+* const map = new SuperMap.map('CesiumContainer', {
 *   geocoder: new SuperMap.PeliasGeocoderService(new SuperMap.Resource({
 *     url: 'https://api.geocode.earth/v1/',
 *       queryParameters: {
@@ -16861,7 +16861,7 @@ export type binarySearchComparator = (a: any, b: any) => number;
 /**
 * Given a relative URL under the SuperMap base URL, returns an absolute URL.
 * @example
-* const viewer = new SuperMap.Viewer("CesiumContainer", {
+* const map = new SuperMap.map("CesiumContainer", {
 *   imageryProvider: new SuperMap.TileMapServiceImageryProvider({
 *   url: SuperMap.buildModuleUrl("Assets/Textures/NaturalEarthII"),
 *   }),
@@ -17317,14 +17317,14 @@ export class BillboardGraphics {
   pixelOffset: Property | undefined;
   /**
    * Gets or sets the {@link Cartesian3} Property specifying the billboard's offset in eye coordinates.
-   * Eye coordinates is a left-handed coordinate system, where <code>x</code> points towards the viewer's
+   * Eye coordinates is a left-handed coordinate system, where <code>x</code> points towards the map's
    * right, <code>y</code> points up, and <code>z</code> points into the screen.
    * <p>
    * An eye offset is commonly used to arrange multiple billboards or objects at the same position, e.g., to
    * arrange a billboard above its corresponding 3D model.
    * </p>
    * Below, the billboard is positioned at the center of the Earth but an eye offset makes it always
-   * appear on top of the Earth regardless of the viewer's or Earth's orientation.
+   * appear on top of the Earth regardless of the map's or Earth's orientation.
    * <p>
    * <div align='center'>
    * <table border='0' cellpadding='5'><tr>
@@ -18347,7 +18347,7 @@ export namespace KmlDataSource {
   /**
    * Options for constructing a new KmlDataSource, or calling the  `load` method.
    * @property [camera] - The camera that is used for viewRefreshModes and sending camera properties to network links.
-   * @property [canvas] - The canvas that is used for sending viewer properties to network links.
+   * @property [canvas] - The canvas that is used for sending map properties to network links.
    * @property [credit] - A credit for the data source, which is displayed on the canvas.
    * @property [sourceUri] - Overrides the url to use for resolving relative links and other KML network features.
    * @property [clampToGround = false] - true if we want the geometry features (Polygons, LineStrings and LinearRings) clamped to the ground.
@@ -18373,11 +18373,11 @@ export namespace KmlDataSource {
 * under the <code>kml</code> property.
 * </p>
 * @example
-* const viewer = new SuperMap.Viewer('CesiumContainer');
-* viewer.dataSources.add(SuperMap.KmlDataSource.load('../../SampleData/facilities.kmz',
+* const map = new SuperMap.map('CesiumContainer');
+* map.dataSources.add(SuperMap.KmlDataSource.load('../../SampleData/facilities.kmz',
 *      {
-*           camera: viewer.scene.camera,
-*           canvas: viewer.scene.canvas
+*           camera: map.scene.camera,
+*           canvas: map.scene.canvas
 *      })
 * );
 * @param [options] - Object describing initialization options
@@ -18544,11 +18544,11 @@ export class KmlTour {
   addPlaylistEntry(entry: KmlTourFlyTo | KmlTourWait): void;
   /**
    * Play this tour.
-   * @param viewer - viewer widget.
+   * @param map - map widget.
    * @param [cameraOptions] - these options will be merged with {@link Camera#flyTo}
    * options for FlyTo playlist entries.
    */
-  play(viewer: Viewer, cameraOptions?: any): void;
+  play(map: map, cameraOptions?: any): void;
   /**
    * Stop curently playing tour.
    */
@@ -18745,14 +18745,14 @@ export class LabelGraphics {
   pixelOffset: Property | undefined;
   /**
    * Gets or sets the {@link Cartesian3} Property specifying the label's offset in eye coordinates.
-   * Eye coordinates is a left-handed coordinate system, where <code>x</code> points towards the viewer's
+   * Eye coordinates is a left-handed coordinate system, where <code>x</code> points towards the map's
    * right, <code>y</code> points up, and <code>z</code> points into the screen.
    * <p>
    * An eye offset is commonly used to arrange multiple labels or objects at the same position, e.g., to
    * arrange a label above its corresponding 3D model.
    * </p>
    * Below, the label is positioned at the center of the Earth but an eye offset makes it always
-   * appear on top of the Earth regardless of the viewer's or Earth's orientation.
+   * appear on top of the Earth regardless of the map's or Earth's orientation.
    * <p>
    * <div align='center'>
    * <table border='0' cellpadding='5'><tr>
@@ -20158,7 +20158,7 @@ export class TimeIntervalCollectionProperty {
 * //Create an entity with position and orientation.
 * const position = new Cesium.SampledProperty();
 * position.addSamples(...);
-* const entity = viewer.entities.add({
+* const entity = map.entities.add({
 *   position : position,
 *   orientation : new Cesium.VelocityOrientationProperty(position)
 * }));
@@ -20206,7 +20206,7 @@ export class VelocityOrientationProperty {
 * //Create an entity with a billboard rotated to match its velocity.
 * const position = new Cesium.SampledProperty();
 * position.addSamples(...);
-* const entity = viewer.entities.add({
+* const entity = map.entities.add({
 *   position : position,
 *   billboard : {
 *     image : 'image.png',
@@ -20496,7 +20496,7 @@ export class Billboard {
   pixelOffsetScaleByDistance: NearFarScalar;
   /**
    * Gets or sets the 3D Cartesian offset applied to this billboard in eye coordinates.  Eye coordinates is a left-handed
-   * coordinate system, where <code>x</code> points towards the viewer's right, <code>y</code> points up, and
+   * coordinate system, where <code>x</code> points towards the map's right, <code>y</code> points up, and
    * <code>z</code> points into the screen.  Eye coordinates use the same scale as world and model coordinates,
    * which is typically meters.
    * <br /><br />
@@ -20504,7 +20504,7 @@ export class Billboard {
    * arrange a billboard above its corresponding 3D model.
    * <br /><br />
    * Below, the billboard is positioned at the center of the Earth but an eye offset makes it always
-   * appear on top of the Earth regardless of the viewer's or Earth's orientation.
+   * appear on top of the Earth regardless of the map's or Earth's orientation.
    * <br /><br />
    * <div align='center'>
    * <table border='0' cellpadding='5'><tr>
@@ -20893,7 +20893,7 @@ export class BillboardCollection {
    */
   get(index: number): Billboard;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -21489,12 +21489,12 @@ export class Camera {
    * Sets the camera position, orientation and transform.
    * @example
    * // 1. Set position with a top-down view
-   * viewer.camera.setView({
+   * map.camera.setView({
    *     destination : Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0)
    * });
    *
    * // 2 Set view with heading, pitch and roll
-   * viewer.camera.setView({
+   * map.camera.setView({
    *     destination : cartesianPosition,
    *     orientation: {
    *         heading : Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)
@@ -21504,7 +21504,7 @@ export class Camera {
    * });
    *
    * // 3. Change heading, pitch and roll with the camera position remaining the same.
-   * viewer.camera.setView({
+   * map.camera.setView({
    *     orientation: {
    *         heading : Cesium.Math.toRadians(90.0), // east, default value is 0.0 (north)
    *         pitch : Cesium.Math.toRadians(-90),    // default value (looking down)
@@ -21514,12 +21514,12 @@ export class Camera {
    *
    *
    * // 4. View rectangle with a top-down view
-   * viewer.camera.setView({
+   * map.camera.setView({
    *     destination : Cesium.Rectangle.fromDegrees(west, south, east, north)
    * });
    *
    * // 5. Set position with an orientation using unit vectors.
-   * viewer.camera.setView({
+   * map.camera.setView({
    *     destination : Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),
    *     orientation : {
    *         direction : new Cesium.Cartesian3(-0.04231243104240401, -0.20123236049443421, -0.97862924300734),
@@ -21728,14 +21728,14 @@ export class Camera {
    * @example
    * // 1. Using a cartesian offset
    * const center = Cesium.Cartesian3.fromDegrees(-98.0, 40.0);
-   * viewer.camera.lookAt(center, new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0));
+   * map.camera.lookAt(center, new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0));
    *
    * // 2. Using a HeadingPitchRange offset
    * const center = Cesium.Cartesian3.fromDegrees(-72.0, 40.0);
    * const heading = Cesium.Math.toRadians(50.0);
    * const pitch = Cesium.Math.toRadians(-20.0);
    * const range = 5000.0;
-   * viewer.camera.lookAt(center, new Cesium.HeadingPitchRange(heading, pitch, range));
+   * map.camera.lookAt(center, new Cesium.HeadingPitchRange(heading, pitch, range));
    * @param target - The target position in world coordinates.
    * @param offset - The offset from the target in the local east-north-up reference frame centered at the target.
    */
@@ -21753,14 +21753,14 @@ export class Camera {
    * @example
    * // 1. Using a cartesian offset
    * const transform = Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromDegrees(-98.0, 40.0));
-   * viewer.camera.lookAtTransform(transform, new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0));
+   * map.camera.lookAtTransform(transform, new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0));
    *
    * // 2. Using a HeadingPitchRange offset
    * const transform = Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromDegrees(-72.0, 40.0));
    * const heading = Cesium.Math.toRadians(50.0);
    * const pitch = Cesium.Math.toRadians(-20.0);
    * const range = 5000.0;
-   * viewer.camera.lookAtTransform(transform, new Cesium.HeadingPitchRange(heading, pitch, range));
+   * map.camera.lookAtTransform(transform, new Cesium.HeadingPitchRange(heading, pitch, range));
    * @param transform - The transformation matrix defining the reference frame.
    * @param [offset] - The offset from the target in a reference frame centered at the target.
    */
@@ -21775,10 +21775,10 @@ export class Camera {
   /**
    * Pick an ellipsoid or map.
    * @example
-   * const canvas = viewer.scene.canvas;
+   * const canvas = map.scene.canvas;
    * const center = new Cesium.Cartesian2(canvas.clientWidth / 2.0, canvas.clientHeight / 2.0);
-   * const ellipsoid = viewer.scene.globe.ellipsoid;
-   * const result = viewer.camera.pickEllipsoid(center, ellipsoid);
+   * const ellipsoid = map.scene.globe.ellipsoid;
+   * const result = map.camera.pickEllipsoid(center, ellipsoid);
    * @param windowPosition - The x and y coordinates of a pixel.
    * @param [ellipsoid = Ellipsoid.WGS84] - The ellipsoid to pick.
    * @param [result] - The object onto which to store the result.
@@ -21823,17 +21823,17 @@ export class Camera {
    * Flies the camera from its current position to a new position.
    * @example
    * // 1. Fly to a position with a top-down view
-   * viewer.camera.flyTo({
+   * map.camera.flyTo({
    *     destination : Cesium.Cartesian3.fromDegrees(-117.16, 32.71, 15000.0)
    * });
    *
    * // 2. Fly to a Rectangle with a top-down view
-   * viewer.camera.flyTo({
+   * map.camera.flyTo({
    *     destination : Cesium.Rectangle.fromDegrees(west, south, east, north)
    * });
    *
    * // 3. Fly to a position with an orientation using unit vectors.
-   * viewer.camera.flyTo({
+   * map.camera.flyTo({
    *     destination : Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),
    *     orientation : {
    *         direction : new Cesium.Cartesian3(-0.04231243104240401, -0.20123236049443421, -0.97862924300734),
@@ -21842,7 +21842,7 @@ export class Camera {
    * });
    *
    * // 4. Fly to a position with an orientation using heading, pitch and roll.
-   * viewer.camera.flyTo({
+   * map.camera.flyTo({
    *     destination : Cesium.Cartesian3.fromDegrees(-122.19, 46.25, 5000.0),
    *     orientation : {
    *         heading : Cesium.Math.toRadians(175.0),
@@ -22209,7 +22209,7 @@ export class ClassificationPrimitive {
    */
   isSupported(scene: Scene): boolean;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -22328,7 +22328,7 @@ export class ClippingPlane {
 *     ],
 * });
 * // Create an entity and attach the ClippingPlaneCollection to the model.
-* const entity = viewer.entities.add({
+* const entity = map.entities.add({
 *     position : Cesium.Cartesian3.fromDegrees(-123.0744619, 44.0503706, 10000),
 *     model : {
 *         uri : 'model.gltf',
@@ -22337,7 +22337,7 @@ export class ClippingPlane {
 *         clippingPlanes : clippingPlanes
 *     }
 * });
-* viewer.zoomTo(entity);
+* map.zoomTo(entity);
 * @param [options] - Object with the following properties:
 * @param [options.planes = []] - An array of {@link ClippingPlane} objects used to selectively disable rendering on the outside of each plane.
 * @param [options.enabled = true] - Determines whether the clipping planes are active.
@@ -22427,7 +22427,7 @@ export class ClippingPlaneCollection {
    */
   removeAll(): void;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * build the resources for clipping planes.
    * <p>
    * Do not call this function directly.
@@ -22801,8 +22801,8 @@ export class Fog {
    * A scalar that determines the density of the fog. Terrain that is in full fog are culled.
    * The density of the fog increases as this number approaches 1.0 and becomes less dense as it approaches zero.
    * The more dense the fog is, the more aggressively the terrain is culled. For example, if the camera is a height of
-   * 1000.0m above the ellipsoid, increasing the value to 3.0e-3 will cause many tiles close to the viewer be culled.
-   * Decreasing the value will push the fog further from the viewer, but decrease performance as more of the terrain is rendered.
+   * 1000.0m above the ellipsoid, increasing the value to 3.0e-3 will cause many tiles close to the map be culled.
+   * Decreasing the value will push the fog further from the map, but decrease performance as more of the terrain is rendered.
    */
   density: number;
   /**
@@ -23084,7 +23084,7 @@ export class Globe {
    * Find an intersection between a ray and the globe surface that was rendered. The ray must be given in world coordinates.
    * @example
    * // find intersection of ray through a pixel and the globe
-   * const ray = viewer.camera.getPickRay(windowCoordinates);
+   * const ray = map.camera.getPickRay(windowCoordinates);
    * const intersection = globe.pick(ray, scene);
    * @param ray - The ray to test for intersection.
    * @param scene - The scene.
@@ -23265,7 +23265,7 @@ export class GroundPolylinePrimitive {
    */
   initializeTerrainHeights(): Promise<void>;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -23492,7 +23492,7 @@ export class GroundPrimitive {
    */
   initializeTerrainHeights(): Promise<void>;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -23973,8 +23973,8 @@ type ImageryLayerCollection = {
    * layer features are found by invoking {@link ImageryProvider#pickFeatures} for each imagery layer tile intersected
    * by the pick ray.  To compute a pick ray from a location on the screen, use {@link Camera.getPickRay}.
    * @example
-   * const pickRay = viewer.camera.getPickRay(windowPosition);
-   * const featuresPromise = viewer.imageryLayers.pickImageryLayerFeatures(pickRay, viewer.scene);
+   * const pickRay = map.camera.getPickRay(windowPosition);
+   * const featuresPromise = map.imageryLayers.pickImageryLayerFeatures(pickRay, map.scene);
    * if (!Cesium.defined(featuresPromise)) {
    *     console.log('No features picked.');
    * } else {
@@ -24148,7 +24148,7 @@ export class Label {
   scaleByDistance: NearFarScalar;
   /**
    * Gets and sets the 3D Cartesian offset applied to this label in eye coordinates.  Eye coordinates is a left-handed
-   * coordinate system, where <code>x</code> points towards the viewer's right, <code>y</code> points up, and
+   * coordinate system, where <code>x</code> points towards the map's right, <code>y</code> points up, and
    * <code>z</code> points into the screen.  Eye coordinates use the same scale as world and model coordinates,
    * which is typically meters.
    * <br /><br />
@@ -24156,7 +24156,7 @@ export class Label {
    * arrange a label above its corresponding 3D model.
    * <br /><br />
    * Below, the label is positioned at the center of the Earth but an eye offset makes it always
-   * appear on top of the Earth regardless of the viewer's or Earth's orientation.
+   * appear on top of the Earth regardless of the map's or Earth's orientation.
    * <br /><br />
    * <div align='center'>
    * <table border='0' cellpadding='5'><tr>
@@ -24259,7 +24259,7 @@ export class Label {
    * // Example 1.
    * // Set a label's rightToLeft before init
    * Cesium.Label.enableRightToLeftDetection = true;
-   * const myLabelEntity = viewer.entities.add({
+   * const myLabelEntity = map.entities.add({
    *   label: {
    *     id: 'my label',
    *     text: 'זה טקסט בעברית \n ועכשיו יורדים שורה',
@@ -24267,7 +24267,7 @@ export class Label {
    * });
    * @example
    * // Example 2.
-   * const myLabelEntity = viewer.entities.add({
+   * const myLabelEntity = map.entities.add({
    *   label: {
    *     id: 'my label',
    *     text: 'English text'
@@ -24902,7 +24902,7 @@ export class Material {
 * });
 * @param [options] - Object with the following properties:
 * @param [options.flat = false] - When <code>true</code>, flat shading is used in the fragment shader, which means lighting is not taking into account.
-* @param [options.faceForward = !options.closed] - When <code>true</code>, the fragment shader flips the surface normal as needed to ensure that the normal faces the viewer to avoid dark spots.  This is useful when both sides of a geometry should be shaded like {@link WallGeometry}.
+* @param [options.faceForward = !options.closed] - When <code>true</code>, the fragment shader flips the surface normal as needed to ensure that the normal faces the map to avoid dark spots.  This is useful when both sides of a geometry should be shaded like {@link WallGeometry}.
 * @param [options.translucent = true] - When <code>true</code>, the geometry is expected to appear translucent so {@link MaterialAppearance#renderState} has alpha blending enabled.
 * @param [options.closed = false] - When <code>true</code>, the geometry is expected to be closed so {@link MaterialAppearance#renderState} has backface culling enabled.
 * @param [options.materialSupport = MaterialAppearance.MaterialSupport.TEXTURED] - The type of materials that will be supported.
@@ -24955,7 +24955,7 @@ export class MaterialAppearance {
   /**
    * When <code>true</code>, the geometry is expected to be closed so
    * {@link MaterialAppearance#renderState} has backface culling enabled.
-   * If the viewer enters the geometry, it will not be visible.
+   * If the map enters the geometry, it will not be visible.
    */
   readonly closed: boolean;
   /**
@@ -24976,7 +24976,7 @@ export class MaterialAppearance {
   readonly flat: boolean;
   /**
    * When <code>true</code>, the fragment shader flips the surface normal
-   * as needed to ensure that the normal faces the viewer to avoid
+   * as needed to ensure that the normal faces the map to avoid
    * dark spots.  This is useful when both sides of a geometry should be
    * shaded like {@link WallGeometry}.
    */
@@ -25416,7 +25416,7 @@ export namespace ParticleSystem {
 * });
 * @param [options] - Object with the following properties:
 * @param [options.flat = false] - When <code>true</code>, flat shading is used in the fragment shader, which means lighting is not taking into account.
-* @param [options.faceForward = !options.closed] - When <code>true</code>, the fragment shader flips the surface normal as needed to ensure that the normal faces the viewer to avoid dark spots.  This is useful when both sides of a geometry should be shaded like {@link WallGeometry}.
+* @param [options.faceForward = !options.closed] - When <code>true</code>, the fragment shader flips the surface normal as needed to ensure that the normal faces the map to avoid dark spots.  This is useful when both sides of a geometry should be shaded like {@link WallGeometry}.
 * @param [options.translucent = true] - When <code>true</code>, the geometry is expected to appear translucent so {@link PerInstanceColorAppearance#renderState} has alpha blending enabled.
 * @param [options.closed = false] - When <code>true</code>, the geometry is expected to be closed so {@link PerInstanceColorAppearance#renderState} has backface culling enabled.
 * @param [options.vertexShaderSource] - Optional GLSL vertex shader source to override the default vertex shader.
@@ -25463,7 +25463,7 @@ export class PerInstanceColorAppearance {
   /**
    * When <code>true</code>, the geometry is expected to be closed so
    * {@link PerInstanceColorAppearance#renderState} has backface culling enabled.
-   * If the viewer enters the geometry, it will not be visible.
+   * If the map enters the geometry, it will not be visible.
    */
   readonly closed: boolean;
   /**
@@ -25479,7 +25479,7 @@ export class PerInstanceColorAppearance {
   readonly flat: boolean;
   /**
    * When <code>true</code>, the fragment shader flips the surface normal
-   * as needed to ensure that the normal faces the viewer to avoid
+   * as needed to ensure that the normal faces the map to avoid
    * dark spots.  This is useful when both sides of a geometry should be
    * shaded like {@link WallGeometry}.
    */
@@ -26052,7 +26052,7 @@ export class PolylineCollection {
    */
   get(index: number): Polyline;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -27116,7 +27116,7 @@ export class Primitive {
    */
   readonly readyPromise: Promise<Primitive>;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -27529,13 +27529,13 @@ export class Scene {
    * </p>
    * @example
    * // picking the position of a translucent primitive
-   * viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
-   *      const pickedFeature = viewer.scene.pick(movement.position);
+   * map.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+   *      const pickedFeature = map.scene.pick(movement.position);
    *      if (!Cesium.defined(pickedFeature)) {
    *          // nothing picked
    *          return;
    *      }
-   *      const worldPosition = viewer.scene.pickPosition(movement.position);
+   *      const worldPosition = map.scene.pickPosition(movement.position);
    * }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
    */
   pickTranslucentDepth: boolean;
@@ -27796,7 +27796,7 @@ export class Scene {
   getCompressedTextureFormatSupported(format: string): boolean;
   /**
    * Update and render the scene. It is usually not necessary to call this function
-   * directly because {@link CesiumWidget} or {@link Viewer} do it automatically.
+   * directly because {@link CesiumWidget} or {@link map} do it automatically.
    * @param [time] - The simulation time at which to render.
    */
   render(time?: JulianDate): void;
@@ -27866,7 +27866,7 @@ export class Scene {
    * </p>
    * @example
    * const position = new Cesium.Cartographic(-1.31968, 0.698874);
-   * const height = viewer.scene.sampleHeight(position);
+   * const height = map.scene.sampleHeight(position);
    * console.log(height);
    * @param position - The cartographic position to sample height from.
    * @param [objectsToExclude] - A list of primitives, entities, or 3D Tiles features to not sample height from.
@@ -27885,7 +27885,7 @@ export class Scene {
    * @example
    * // Clamp an entity to the underlying scene geometry
    * const position = entity.position.getValue(Cesium.JulianDate.now());
-   * entity.position = viewer.scene.clampToHeight(position);
+   * entity.position = map.scene.clampToHeight(position);
    * @param cartesian - The cartesian position.
    * @param [objectsToExclude] - A list of primitives, entities, or 3D Tiles features to not clamp to.
    * @param [width = 0.1] - Width of the intersection volume in meters.
@@ -27904,7 +27904,7 @@ export class Scene {
    *     new Cesium.Cartographic(-1.31968, 0.69887),
    *     new Cesium.Cartographic(-1.10489, 0.83923)
    * ];
-   * const promise = viewer.scene.sampleHeightMostDetailed(positions);
+   * const promise = map.scene.sampleHeightMostDetailed(positions);
    * promise.then(function(updatedPosition) {
    *     // positions[0].height and positions[1].height have been updated.
    *     // updatedPositions is just a reference to positions.
@@ -27925,7 +27925,7 @@ export class Scene {
    *     entities[0].position.getValue(Cesium.JulianDate.now()),
    *     entities[1].position.getValue(Cesium.JulianDate.now())
    * ];
-   * const promise = viewer.scene.clampToHeightMostDetailed(cartesians);
+   * const promise = map.scene.clampToHeightMostDetailed(cartesians);
    * promise.then(function(updatedCartesians) {
    *     entities[0].position = updatedCartesians[0];
    *     entities[1].position = updatedCartesians[1];
@@ -28218,7 +28218,7 @@ export class ScreenSpaceCameraController {
 }
 
 /**
-* Use {@link Viewer#shadowMap} to get the scene's shadow map. Do not construct this directly.
+* Use {@link map#shadowMap} to get the scene's shadow map. Do not construct this directly.
 *
 * <p>
 * The normalOffset bias pushes the shadows forward slightly, and may be disabled
@@ -28604,7 +28604,7 @@ export class SkyBox {
    */
   show: boolean;
   /**
-   * Called when {@link Viewer} or {@link CesiumWidget} render the scene to
+   * Called when {@link map} or {@link CesiumWidget} render the scene to
    * get the draw commands needed to render this primitive.
    * <p>
    * Do not call this function directly.  This is documented just to
@@ -29100,7 +29100,7 @@ export namespace WebMapTileServiceImageryProvider {
 *     maximumLevel: 19,
 *     credit : new Cesium.Credit('U. S. Geological Survey')
 * });
-* viewer.imageryLayers.addImageryProvider(shadedRelief1);
+* map.imageryLayers.addImageryProvider(shadedRelief1);
 * @example
 * // Example 2. USGS shaded relief tiles (RESTful)
 * const shadedRelief2 = new Cesium.WebMapTileServiceImageryProvider({
@@ -29112,7 +29112,7 @@ export namespace WebMapTileServiceImageryProvider {
 *     maximumLevel: 19,
 *     credit : new Cesium.Credit('U. S. Geological Survey')
 * });
-* viewer.imageryLayers.addImageryProvider(shadedRelief2);
+* map.imageryLayers.addImageryProvider(shadedRelief2);
 * @example
 * // Example 3. NASA time dynamic weather data (RESTful)
 * const times = Cesium.TimeIntervalCollection.fromIso8601({
@@ -29134,7 +29134,7 @@ export namespace WebMapTileServiceImageryProvider {
 *     times: times,
 *     credit : new Cesium.Credit('NASA Global Imagery Browse Services for EOSDIS')
 * });
-* viewer.imageryLayers.addImageryProvider(weather);
+* map.imageryLayers.addImageryProvider(weather);
 * @param options - Object describing initialization options
 */
 export class WebMapTileServiceImageryProvider {
@@ -31280,11 +31280,11 @@ export class Point3Ds {
 
 /**
  * Box编辑器类，用于对box进行编辑，可以对该编辑器进行激活、失效以及销毁等操作
- * @param viewer 	当前的viewer
+ * @param map 	当前的map
  * @param box 		拟编辑的box对象，对该对象设置编辑器
  */
 export class BoxEditor {
-  constructor(viewer: Viewer, box: Entity)
+  constructor(map: map, box: Entity)
 
   /**
    * 获取或者设置盒子的颜色
@@ -31337,15 +31337,15 @@ export enum ClampMode {
 
 /**
  * 绘制处理器对象类。支持栅格化面对象的绘制
- * @param viewer	viewer对象
+ * @param map	map对象
  * @param mode		绘制模式，包含点、线、面、图标
  * @param clampMode	clampMode 绘制风格，包含空间、贴地、贴对象（S3M模型）
  * @example 
- * var handler = new Cesium.DrawHandler(viewer,Cesium.DrawMode.Line,ClampMode.Ground);
+ * var handler = new Cesium.DrawHandler(map,Cesium.DrawMode.Line,ClampMode.Ground);
  * handler.activate();
  */
 export class DrawHandler {
-  constructor(viewer: Viewer, mode: DrawMode, clampMode: ClampMode)
+  constructor(map: map, mode: DrawMode, clampMode: ClampMode)
 
   /**
    * 绘制handler的激活事件
@@ -31432,14 +31432,14 @@ export enum DrawMode {
 
 /**
  * 编辑对象
- * @param viewer viewer对象
+ * @param map map对象
  * @param editObject 被编辑对象
  * @example 
- *  var handler = new Cesium.EditHandler(viewer,editObject);
+ *  var handler = new Cesium.EditHandler(map,editObject);
  *  handler.activate();
  */
 export class EditHandler {
-  constructor(viewer: Viewer, editObject: Entity)
+  constructor(map: map, editObject: Entity)
 
   /**
    * 用于监听编辑线面后的变化
@@ -31454,18 +31454,18 @@ export class EditHandler {
 
 /**
  * 量测处理器类
- * @param viewer 指定用于量测的视图
+ * @param map 指定用于量测的视图
  * @param mode 	指定量测模式
  * @param clampMode 指定几何对象的风格（贴地，贴对象）
  * @example 
- *  var handler = new MeasureHandler(viewer,Cesium.MeasureMode.Distance);
+ *  var handler = new MeasureHandler(map,Cesium.MeasureMode.Distance);
  *   handler.activate();
  *   handler.measureEvt.addEventListener(function(obj){
  *      console.log(obj);
  *   });
  */
 export class MeasureHandler {
-  constructor(viewer: Viewer, mode: MeasureMode, clampMode: ClampMode)
+  constructor(map: map, mode: MeasureMode, clampMode: ClampMode)
 
   /**
    * 激活事件，监听当前事件以获取处理器的状态
@@ -31520,7 +31520,7 @@ export class MeasureHandler {
   /**
    * 量测事件，监听当前事件以获取测量结果。 当量测模式为MeasureMode.Distance时，回调结果为{distance : distance}。 当量测模式为MeasureMode.Area时，回调结果为{area : area,positions : positions}。 当量测模式为MeasureMode.DVH时，回调结果为{distance : distance,verticalHeight : vHeight,horizontalDistance : hHeight}
    * @example 
-   * var handler = new Cesium.MeasureHandler(viewer,Cesium.MeasureMode.Area);
+   * var handler = new Cesium.MeasureHandler(map,Cesium.MeasureMode.Area);
    *  handler.measureEvt.addEventListener(function(result){
    * var area = result.area > 1000000 ? result.area/1000000 + 'km²' : result.area + '㎡'
    * handler.areaLabel.text = 'area:' + area;
@@ -31764,7 +31764,7 @@ export class SpotLight {
  * //创建provider。
  *   var provider = new Cesium.SuperMapImageryProvider({url : URL_CONFIG.ZF_IMG});
  *   //创建影像图层。
- *   var layer = viewer.imageryLayers.addImageryProvider(provider);
+ *   var layer = map.imageryLayers.addImageryProvider(provider);
  */
 export class SuperMapImageryProvider {
   constructor(options: {

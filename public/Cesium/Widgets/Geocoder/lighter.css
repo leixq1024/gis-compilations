@@ -4,7 +4,7 @@
     color: black;
 }
 
-.cesium-lighter .cesium-viewer-geocoderContainer:hover .cesium-geocoder-input {
+.cesium-lighter .cesium-map-geocoderContainer:hover .cesium-geocoder-input {
     border-color: #aef;
     box-shadow: 0 0 8px #fff;
 }
